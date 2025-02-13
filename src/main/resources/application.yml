@@ -30,6 +30,11 @@ logging:
       hibernate:
         SQL: debug
 
+# Gemini API key
+gemini:
+  api:
+    key: AIzaSyCDCJRg3Crk5_3vLn5P5UC7Cox9a4_HTeA
+    endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent
 
 
 
