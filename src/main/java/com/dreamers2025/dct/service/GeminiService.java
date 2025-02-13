@@ -72,13 +72,13 @@ public class GeminiService {
 
     private String createPrompt(DreamInterpretationRequest request) {
         // Prompt 템플릿
-        String promptTemplate = "당신은 {interpreterType}입니다. 사용자는 현재 {experience} 어려움을 겪고 있으며, {dreamContent} 꿈을 꾸었습니다. 이 꿈을 해몽해주시고 대화하듯이 500자정도 만들어서 주세요, 1점에서 10점 사이의 점수를 부여해주세요.\n\n해몽 결과 (해석 + 점수):";
+        String promptTemplate = "당신은 해몽가입니다. 당신의 역할은 {interpreterType}입니다. 사용자는 현재 {experience}라는 어려움을 겪고 있으며, {dreamContent} 꿈을 꾸었습니다. 이 꿈을 500자 안에서 해몽해 주세요, 1점에서 10점 사이의 점수를 부여해주세요.\n\n해몽 결과 (해석 + 점수):";
 
         // Prompt 생성
         String prompt = promptTemplate.replace("{interpreterType}", request.getInterpreterType())
                 .replace("{experience}", request.getExperience())
                 .replace("{dreamContent}", request.getDreamContent());
-
+        System.out.println("prompt = " + prompt);
         logger.debug("생성된 Prompt: {}", prompt);
         return prompt;
     }

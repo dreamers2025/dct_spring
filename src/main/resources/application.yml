@@ -33,8 +33,8 @@ logging:
 # Gemini API key
 gemini:
   api:
-    key: AIzaSyCDCJRg3Crk5_3vLn5P5UC7Cox9a4_HTeA
-    endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent
+    key: AIzaSyAVPMezK5t4XcORBkBDiBWZ8eHS9G-SvWI
+    endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
 
 
 
