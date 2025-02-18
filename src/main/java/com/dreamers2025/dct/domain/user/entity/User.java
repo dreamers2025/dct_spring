@@ -1,10 +1,7 @@
 package com.dreamers2025.dct.domain.user.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -29,11 +26,14 @@ public class User {
     private String email;
 
     @Setter
-    @Column(length = 100)
+    @Column(nullable = false, length = 100)
     private String password;
 
     @Column(nullable = false, unique = true, length = 30)
     private String username;
+
+    @Column(nullable = false, length = 20)
+    private String usergrade="free";
 
     @Column(length = 255)
     private String refreshToken;
@@ -41,4 +41,11 @@ public class User {
     @CreationTimestamp
     @Column(name = "create_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @Builder
+    private User(String email,String password,String username){
+        this.email = email;
+        this.password = password;
+        this.username = username;
+    }
 }
