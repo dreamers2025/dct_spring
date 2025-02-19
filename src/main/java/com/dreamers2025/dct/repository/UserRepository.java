@@ -1,6 +1,6 @@
 package com.dreamers2025.dct.repository;
 
-import com.dreamers2025.dct.domain.user.entity.User;
+import com.dreamers2025.dct.domain.user.dto.entity.User;
 import com.dreamers2025.dct.repository.custom.UserRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,6 @@
-package com.dreamers2025.dct.domain.user.request;
+package com.dreamers2025.dct.domain.user.dto.request;
 
-import com.dreamers2025.dct.domain.user.entity.User;
+import com.dreamers2025.dct.domain.user.dto.entity.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;

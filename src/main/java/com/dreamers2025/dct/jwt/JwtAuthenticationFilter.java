@@ -24,7 +24,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final com.dreamers2025.dct.jwt.JwtTokenProvider tokenProvider;
+    private final JwtTokenProvider tokenProvider;
 
 
     // 실제 필터링 로직을 수행하는 메서드

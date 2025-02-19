@@ -1,4 +1,4 @@
-package com.dreamers2025.dct.domain.user.entity;
+package com.dreamers2025.dct.domain.user.dto.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

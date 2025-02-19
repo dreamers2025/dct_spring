@@ -1,6 +1,5 @@
 package com.dreamers2025.dct.exception;
 
-import com.dreamers2025.dct.domain.user.entity.User;
 import lombok.Getter;
 
 @Getter
