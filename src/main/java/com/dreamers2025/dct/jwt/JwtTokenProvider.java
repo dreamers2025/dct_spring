@@ -36,17 +36,17 @@ public class JwtTokenProvider {
 
     // 토큰 발급 로직
     // 액세스 토큰 생성 (사용자가 들고다닐 신분증) : 유효기간이 짧다.
-    public String createAccessToken(String username) {
-        return createToken(username, jwtProperties.getAccessTokenValidityTime());
+    public String createAccessToken(String id) {
+        return createToken(id, jwtProperties.getAccessTokenValidityTime());
     }
 
     // 리프레시 토큰 생성 (서버가 보관할 신분증을 재발급하기위한 정보) : 유효기간이 비교적 김
-    public String createRefreshToken(String username) {
-        return createToken(username, jwtProperties.getRefreshTokenValidityTime());
+    public String createRefreshToken(String id) {
+        return createToken(id, jwtProperties.getRefreshTokenValidityTime());
     }
 
     // 공통 토큰 생성 로직
-    private String createToken(String username, long validityTime) {
+    private String createToken(String id, long validityTime) {
 
         // 현재 시간
         Date now = new Date();
@@ -59,7 +59,7 @@ public class JwtTokenProvider {
                 .setIssuer("Dream Interpretation 2025")  // 발급자 정보
                 .setIssuedAt(now) // 발급시간
                 .setExpiration(validity) // 만료시간
-                .setSubject(username) // 이 토큰을 구별할 유일한 값
+                .setSubject(id) // 이 토큰을 구별할 유일한 값
                 .signWith(key) // 서명 포함
                 .compact();
     }

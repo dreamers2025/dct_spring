@@ -70,7 +70,16 @@ public class UserService {
         return Map.of(
                 "message","로그인에 성공했습니다.",
                 "username",founduser.getUsername(),
-                "accessToken",jwtTokenProvider.createAccessToken(founduser.getUsername())
+                "accessToken",jwtTokenProvider.createAccessToken(String.valueOf(founduser.getId()))
         );
     }
+
+    @Transactional(readOnly = true)
+    public User findMe(String id){
+        User founduser = userRepository.findById(Long.valueOf(id))
+                        .orElseThrow(()-> new UserException((ErrorCode.USER_NOT_FOUND))
+                );
+        return founduser;
+    }
+
 }

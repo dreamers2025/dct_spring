@@ -1,5 +1,6 @@
 package com.dreamers2025.dct.controller;
 
+import com.dreamers2025.dct.domain.user.dto.entity.User;
 import com.dreamers2025.dct.domain.user.dto.request.LoginRequest;
 import com.dreamers2025.dct.service.UserService;
 import com.dreamers2025.dct.domain.user.dto.request.SignUpRequest;
@@ -10,10 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -60,5 +59,36 @@ public class AuthController {
         return ResponseEntity.ok().body(responseMap);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+
+        Cookie cookie = new Cookie("accessToken", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok().body(Map.of(
+                "message", "로그아웃이 처리되었습니다."
+        ));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser (
+            @AuthenticationPrincipal String id
+    ){
+        if(id==null){
+            return ResponseEntity.status(401).build();
+        }
+        User founduser = userService.findMe(id);
+        return ResponseEntity.ok().body(Map.of(
+                "message","인증되었습니다",
+                "id",founduser.getId(),
+                "email",founduser.getEmail(),
+                "username",founduser.getUsername(),
+                "created_at",founduser.getCreatedAt()   
+        ));
+    }
 
 }
