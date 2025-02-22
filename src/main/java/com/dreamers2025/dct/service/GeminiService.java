@@ -1,8 +1,11 @@
 package com.dreamers2025.dct.service;
 
 import com.dreamers2025.dct.dto.request.DreamInterpretationRequest;
+import com.dreamers2025.dct.dto.response.ClientGeminiResponse;
 import com.dreamers2025.dct.dto.response.GeminiResponse;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 @Service
 public class GeminiService {
 
@@ -27,7 +31,7 @@ public class GeminiService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public String getGeminiResponse(DreamInterpretationRequest request) {
+    public ClientGeminiResponse getGeminiResponse(DreamInterpretationRequest request) {
         // 1. Prompt 생성
         String prompt = createPrompt(request);
 
@@ -49,6 +53,7 @@ public class GeminiService {
         // 5. 응답 처리
         String responseText = responseEntity.getBody();
 
+
         if (responseText != null) {
             // 6. 응답에서 마크다운 제거
             responseText = removeMarkdown(responseText);
@@ -57,14 +62,20 @@ public class GeminiService {
             try {
                 GeminiResponse responseBody = parseJsonResponse(responseText);
 
+                log.info("parsedResponseText : "+ responseText);
                 if (responseBody != null && responseBody.getCandidates() != null && !responseBody.getCandidates().isEmpty()) {
                     GeminiResponse.Candidate candidate = responseBody.getCandidates().get(0);
                     if (candidate.getContent() != null && candidate.getContent().containsKey("parts")) {
                         List<Map<String, Object>> parts = (List<Map<String, Object>>) candidate.getContent().get("parts");
+                        log.info(parts.toString());
                         if (!parts.isEmpty()) {
                             String result = (String) parts.get(0).get("text");
                             logger.debug("Gemini API 응답: {}", result); // 응답 로깅
-                            return result; // 첫 번째 part의 text 반환
+                            log.info("JSON : "+ result);
+
+                            ClientGeminiResponse clientResponse = parseStringToCGR(result);;
+
+                            return clientResponse; // 첫 번째 part의 text 반환
                         }
                     }
                 }
@@ -74,7 +85,8 @@ public class GeminiService {
         }
 
         logger.error("Gemini API 응답 처리 실패");
-        return "Gemini API 응답 처리 실패"; // 에러 발생 시 메시지 반환
+//        return "Gemini API 응답 처리 실패"; // 에러 발생 시 메시지 반환
+        return null;
     }
 
     // 마크다운 제거 메소드
@@ -89,6 +101,16 @@ public class GeminiService {
         // JSON 파싱 로직 (예: ObjectMapper 사용)
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(responseText, GeminiResponse.class);
+    }
+    private ClientGeminiResponse parseStringToCGR(String result) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(result);
+        String summary = jsonNode.get("summary").asText();
+        String content = jsonNode.get("content").asText();
+        ClientGeminiResponse response = new ClientGeminiResponse();
+        response.setSummary(summary);
+        response.setContent(content);
+        return response;
     }
 
     private String createPrompt(DreamInterpretationRequest request) {
