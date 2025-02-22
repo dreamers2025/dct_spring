@@ -65,11 +65,11 @@ public class GeminiService {
                 log.info("parsedResponseText : "+ responseText);
                 if (responseBody != null && responseBody.getCandidates() != null && !responseBody.getCandidates().isEmpty()) {
                     GeminiResponse.Candidate candidate = responseBody.getCandidates().get(0);
-                    if (candidate.getContent() != null && candidate.getContent().containsKey("parts")) {
-                        List<Map<String, Object>> parts = (List<Map<String, Object>>) candidate.getContent().get("parts");
+                    if (candidate.getContent() != null && candidate.getContent().getParts() != null) {
+                        List<GeminiResponse.Part> parts = candidate.getContent().getParts();
                         log.info(parts.toString());
                         if (!parts.isEmpty()) {
-                            String result = (String) parts.get(0).get("text");
+                            String result = parts.get(0).getText();
                             logger.debug("Gemini API 응답: {}", result); // 응답 로깅
                             log.info("JSON : "+ result);
 
