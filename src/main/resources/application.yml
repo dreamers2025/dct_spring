@@ -41,6 +41,8 @@ gemini:
     key: AIzaSyAVPMezK5t4XcORBkBDiBWZ8eHS9G-SvWI
     endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
 
-
+tosspayments:
+  test:
+    secretkey: test_sk_Ba5PzR0ArnGbPe4Qn2Rk8vmYnNeD
 
 
