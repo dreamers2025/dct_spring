@@ -85,5 +85,9 @@ public class UserService {
 
     public UpgradeResponse updateUserGrade(String id) {
         userRepository.updateUserGrade(Long.valueOf(id));
+        User founduser = userRepository.findById(Long.valueOf(id))
+                .orElseThrow(()-> new UserException((ErrorCode.USER_NOT_FOUND))
+                );
+        return UpgradeResponse.of(founduser);
     }
 }

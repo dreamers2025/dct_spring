@@ -93,9 +93,9 @@ public class AuthController {
     }
 
     @PutMapping("/upgrade")
-    public ResponseEntity<?> upgrade(@AuthenticationPrincipal String id){
+    public ResponseEntity<UpgradeResponse> upgrade(@AuthenticationPrincipal String id){
         UpgradeResponse response=  userService.updateUserGrade(id);
-        return null;
+        return ResponseEntity.ok().body(response);
     }
 
 }
