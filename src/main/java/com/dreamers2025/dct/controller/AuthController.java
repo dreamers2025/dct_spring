@@ -87,7 +87,7 @@ public class AuthController {
                 "id",founduser.getId(),
                 "email",founduser.getEmail(),
                 "username",founduser.getUsername(),
-                "created_at",founduser.getCreatedAt()   
+                "created_at",founduser.getCreatedAt()
         ));
     }
 
