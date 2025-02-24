@@ -1,10 +1,13 @@
 package com.dreamers2025.dct.domain.user.dto.entity;
 
+import com.dreamers2025.dct.domain.dream.entity.Dream;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(
@@ -32,11 +35,11 @@ public class User {
     @Column(nullable = false, unique = true, length = 30)
     private String username;
 
-    @Column(nullable = false, length = 20)
-    private String usergrade="free";
+    // @Column(nullable = false, length = 20)
+    // private String usergrade="free";
 
-    @Column
-    private LocalDateTime gradeExpiry=null;
+    // @Column
+    // private LocalDateTime gradeExpiry=null;
 
     @Column(length = 255)
     private String refreshToken;
@@ -44,6 +47,15 @@ public class User {
     @CreationTimestamp
     @Column(name = "create_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Dream> dreams = new ArrayList<>();
+
+    // 연관관계 편의 메서드
+    public void addDream(Dream dream) {
+        dreams.add(dream);
+        dream.setUser(this);
+    }
 
     @Builder
     private User(String email,String password,String username){

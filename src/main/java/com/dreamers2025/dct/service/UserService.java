@@ -3,7 +3,7 @@ package com.dreamers2025.dct.service;
 import com.dreamers2025.dct.domain.user.dto.entity.User;
 import com.dreamers2025.dct.domain.user.dto.request.LoginRequest;
 import com.dreamers2025.dct.domain.user.dto.request.SignUpRequest;
-import com.dreamers2025.dct.domain.user.dto.response.UpgradeResponse;
+// import com.dreamers2025.dct.domain.user.dto.response.UpgradeResponse;
 import com.dreamers2025.dct.exception.ErrorCode;
 import com.dreamers2025.dct.exception.UserException;
 import com.dreamers2025.dct.jwt.JwtTokenProvider;
@@ -58,8 +58,8 @@ public class UserService {
 
         User founduser = userRepository.findByEmail(username)
                 .orElseGet(()-> userRepository.findByUsername(username)
-                                .orElseThrow(()-> new UserException((ErrorCode.USER_NOT_FOUND)))
-                        );
+                        .orElseThrow(()-> new UserException((ErrorCode.USER_NOT_FOUND)))
+                );
 
         String inputPassword = loginRequest.getPassword();
         String storedPassword = founduser.getPassword();
@@ -78,12 +78,26 @@ public class UserService {
     @Transactional(readOnly = true)
     public User findMe(String id){
         User founduser = userRepository.findById(Long.valueOf(id))
-                        .orElseThrow(()-> new UserException((ErrorCode.USER_NOT_FOUND))
+                .orElseThrow(()-> new UserException((ErrorCode.USER_NOT_FOUND))
                 );
         return founduser;
     }
 
-    public UpgradeResponse updateUserGrade(String id) {
-        userRepository.updateUserGrade(Long.valueOf(id));
-    }
+//    public UpgradeResponse updateUserGrade(String id) {
+//        userRepository.updateUserGrade(Long.valueOf(id));
+//    }
+
+//    public UpgradeResponse updateUserGrade(String id) {
+//        Long userId = Long.valueOf(id);
+//
+//        // 등급 업데이트 수행
+//        userRepository.updateUserGrade(userId);
+//        log.info("사용자 등급 업데이트 완료: ID {}", userId);
+//
+//        // 업데이트된 사용자 정보 가져오기
+//        User updatedUser = userRepository.findById(userId)
+//                .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
+//
+//        return UpgradeResponse.of(updatedUser);
+//    }
 }
