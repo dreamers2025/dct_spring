@@ -35,6 +35,9 @@ public class User {
     @Column(nullable = false, length = 20)
     private String usergrade="free";
 
+    @Column
+    private LocalDateTime gradeExpiry=null;
+
     @Column(length = 255)
     private String refreshToken;
 
