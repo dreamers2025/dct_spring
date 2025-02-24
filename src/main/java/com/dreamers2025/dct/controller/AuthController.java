@@ -88,12 +88,14 @@ public class AuthController {
                 "id",founduser.getId(),
                 "email",founduser.getEmail(),
                 "username",founduser.getUsername(),
-                "created_at",founduser.getCreatedAt()
+                "created_at",founduser.getCreatedAt(),
+                "usergrade",founduser.getUsergrade()
         ));
     }
 
     @PutMapping("/upgrade")
     public ResponseEntity<UpgradeResponse> upgrade(@AuthenticationPrincipal String id){
+
         UpgradeResponse response=  userService.updateUserGrade(id);
         return ResponseEntity.ok().body(response);
     }
