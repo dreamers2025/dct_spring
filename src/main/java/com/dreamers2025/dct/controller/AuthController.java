@@ -2,7 +2,7 @@ package com.dreamers2025.dct.controller;
 
 import com.dreamers2025.dct.domain.user.dto.entity.User;
 import com.dreamers2025.dct.domain.user.dto.request.LoginRequest;
-// import com.dreamers2025.dct.domain.user.dto.response.UpgradeResponse;
+import com.dreamers2025.dct.domain.user.dto.response.UpgradeResponse;
 import com.dreamers2025.dct.service.UserService;
 import com.dreamers2025.dct.domain.user.dto.request.SignUpRequest;
 import jakarta.servlet.http.Cookie;

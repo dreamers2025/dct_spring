@@ -3,7 +3,7 @@ package com.dreamers2025.dct.service;
 import com.dreamers2025.dct.domain.user.dto.entity.User;
 import com.dreamers2025.dct.domain.user.dto.request.LoginRequest;
 import com.dreamers2025.dct.domain.user.dto.request.SignUpRequest;
-// import com.dreamers2025.dct.domain.user.dto.response.UpgradeResponse;
+import com.dreamers2025.dct.domain.user.dto.response.UpgradeResponse;
 import com.dreamers2025.dct.exception.ErrorCode;
 import com.dreamers2025.dct.exception.UserException;
 import com.dreamers2025.dct.jwt.JwtTokenProvider;

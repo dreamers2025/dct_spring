@@ -35,11 +35,11 @@ public class User {
     @Column(nullable = false, unique = true, length = 30)
     private String username;
 
-    // @Column(nullable = false, length = 20)
-    // private String usergrade="free";
+    @Column(nullable = false, length = 20)
+    private String usergrade="free";
 
-    // @Column
-    // private LocalDateTime gradeExpiry=null;
+    @Column
+    private LocalDateTime gradeExpiry=null;
 
     @Column(length = 255)
     private String refreshToken;
