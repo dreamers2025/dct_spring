@@ -1,6 +1,7 @@
 package com.dreamers2025.dct.domain.dream.dto.response;
 
 import com.dreamers2025.dct.domain.dream.entity.Dream;
+import com.dreamers2025.dct.domain.interpreter.entity.InterpreterType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,14 +18,15 @@ public class DreamLog {
     private String summary;   // 꿈 요약
     private String content;   // 해몽 내용
     private LocalDate date;   // 꿈 기록일
-    // private String characterImg; // 해몽가 이미지 URL
+    private InterpreterType interpreter; // 해몽가 유형
 
     public static DreamLog from(Dream dream) {
         return DreamLog.builder()
-                .dreamId(dream.getDreamId())
+                .dreamId(dream.getId())
                 .summary(dream.getSummary())
                 .content(dream.getContent())
                 .date(dream.getDate())
+                .interpreter(dream.getInterpreter())
                 .build();
     }
 }
