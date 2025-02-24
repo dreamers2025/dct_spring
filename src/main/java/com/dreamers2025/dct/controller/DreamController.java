@@ -1,5 +1,6 @@
 package com.dreamers2025.dct.controller;
 
+import com.dreamers2025.dct.domain.dream.dto.response.DreamLog;
 import com.dreamers2025.dct.domain.dream.entity.Dream;
 import com.dreamers2025.dct.jwt.JwtTokenProvider;
 import com.dreamers2025.dct.repository.DreamRepository;
@@ -27,7 +28,7 @@ public class DreamController {
 
     // 내 꿈 기록 조회 (로그인 상태에서만 가능)
     @GetMapping("/mydreams")
-    public ResponseEntity<List<Dream>> getMyDreams(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<DreamLog>> getMyDreams(@RequestHeader("Authorization") String token) {
 
         log.info("토큰: {}", token);
         // 토큰에서 'Bearer ' 부분 제거
@@ -38,8 +39,12 @@ public class DreamController {
         // JWT에서 사용자 id 정보 추출 getCurrentLoginUsername 메서드명 변경 예정이라고 함
         String userId = jwtTokenProvider.getCurrentLoginUsername(accessToken);
 
+        log.info("조회된 회원 id: {}", userId);
+
         // 서비스 계층에서 꿈 기록 조회
-        List<Dream> dreamLogs = dreamService.getDreamsByUserId(userId);
+        List<DreamLog> dreamLogs = dreamService.getDreamsByUserId(userId);
+
+        dreamLogs.stream().forEach(dream -> {log.info(dream.getSummary());});
 
         // 결과 반환
         return ResponseEntity.ok(dreamLogs);
