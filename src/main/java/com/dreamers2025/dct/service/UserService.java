@@ -83,21 +83,11 @@ public class UserService {
         return founduser;
     }
 
-//    public UpgradeResponse updateUserGrade(String id) {
-//        userRepository.updateUserGrade(Long.valueOf(id));
-//    }
-
-//    public UpgradeResponse updateUserGrade(String id) {
-//        Long userId = Long.valueOf(id);
-//
-//        // 등급 업데이트 수행
-//        userRepository.updateUserGrade(userId);
-//        log.info("사용자 등급 업데이트 완료: ID {}", userId);
-//
-//        // 업데이트된 사용자 정보 가져오기
-//        User updatedUser = userRepository.findById(userId)
-//                .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
-//
-//        return UpgradeResponse.of(updatedUser);
-//    }
+    public UpgradeResponse updateUserGrade(String id) {
+        userRepository.updateUserGrade(Long.valueOf(id));
+        User founduser = userRepository.findById(Long.valueOf(id))
+                .orElseThrow(()-> new UserException((ErrorCode.USER_NOT_FOUND))
+                );
+        return UpgradeResponse.of(founduser);
+    }
 }
