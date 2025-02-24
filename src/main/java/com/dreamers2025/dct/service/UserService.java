@@ -3,7 +3,7 @@ package com.dreamers2025.dct.service;
 import com.dreamers2025.dct.domain.user.dto.entity.User;
 import com.dreamers2025.dct.domain.user.dto.request.LoginRequest;
 import com.dreamers2025.dct.domain.user.dto.request.SignUpRequest;
-import com.dreamers2025.dct.domain.user.dto.response.UpgradeResponse;
+// import com.dreamers2025.dct.domain.user.dto.response.UpgradeResponse;
 import com.dreamers2025.dct.exception.ErrorCode;
 import com.dreamers2025.dct.exception.UserException;
 import com.dreamers2025.dct.jwt.JwtTokenProvider;
@@ -58,8 +58,8 @@ public class UserService {
 
         User founduser = userRepository.findByEmail(username)
                 .orElseGet(()-> userRepository.findByUsername(username)
-                                .orElseThrow(()-> new UserException((ErrorCode.USER_NOT_FOUND)))
-                        );
+                        .orElseThrow(()-> new UserException((ErrorCode.USER_NOT_FOUND)))
+                );
 
         String inputPassword = loginRequest.getPassword();
         String storedPassword = founduser.getPassword();
@@ -78,7 +78,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public User findMe(String id){
         User founduser = userRepository.findById(Long.valueOf(id))
-                        .orElseThrow(()-> new UserException((ErrorCode.USER_NOT_FOUND))
+                .orElseThrow(()-> new UserException((ErrorCode.USER_NOT_FOUND))
                 );
         return founduser;
     }
