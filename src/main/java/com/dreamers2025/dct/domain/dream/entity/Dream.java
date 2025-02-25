@@ -26,13 +26,14 @@ public class Dream {
     @JoinColumn(name = "user_id")  // 외래 키
     private User user;
 
-    @Column(length = 40)
+    @Column(length = 50)
     private String summary; // 요약
 
     @Enumerated(EnumType.STRING)
     @Column(name = "interpreter")
     private InterpreterType interpreter;
 
+    @Column(length = 700, nullable = false)
     private String content; // 해몽 내용
 
     @CreationTimestamp

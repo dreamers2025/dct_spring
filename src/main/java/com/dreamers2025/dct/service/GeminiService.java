@@ -117,9 +117,9 @@ public class GeminiService {
         // Prompt 템플릿
         String promptTemplate = "당신은 해몽가입니다. 당신의 역할은 {interpreterType}입니다. " +
                 " 사용자는 현재 {experience}라는 고민을 겪고 있으며, 최근에 {dreamContent}라는 꿈을 꾸었습니다." +
-                " 이 꿈을 500자 안에서 {interpreterType}역할에 어울리는 말투로 해몽해 주세요. " +
+                " 이 꿈을 반드시 500자 안에서 {interpreterType}역할에 어울리는 말투로 해몽해 주세요. " +
                 " 해몽한 내용은 content라는 key값에 담아주시고," +
-                " content를 한줄로 짧게 요약한 내용을 summary라는 key값에 담아서 결과는 JSON 객체로 보내주세요."
+                " content를 반드시 30자 이내 지켜서 짧게 요약한 내용을 summary라는 key값에 담아서 결과는 JSON 객체로 보내주세요."
                 ;
 
         // Prompt 생성

@@ -18,23 +18,12 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/dreamlog")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173")
 public class DreamController {
     private final DreamService dreamService;
     private final JwtTokenProvider jwtTokenProvider;
-
-    @PostMapping("/api/save-dream-result")
-    public ResponseEntity<String> saveDreamToDB(
-            @RequestBody DreamCreate dreamCreate,
-            @AuthenticationPrincipal String userId
-    ) {
-        dreamService.saveDream(userId, dreamCreate);
-
-        return ResponseEntity.ok("Dream interpretation saved successfully.");
-    }
-
 
     // 내 꿈 기록 조회 (로그인 상태에서만 가능)
     @GetMapping("/mydreams")
