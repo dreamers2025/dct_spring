@@ -91,16 +91,11 @@ public class AuthController {
                 "email",founduser.getEmail(),
                 "username",founduser.getUsername(),
                 "created_at",founduser.getCreatedAt(),
-<<<<<<< HEAD
-                "usergrade", founduser.getUsergrade()
-=======
                 "usergrade",founduser.getUsergrade()
->>>>>>> 32cbdfc312e68b83c44a290abd18aef09228dc0b
         ));
     }
 
     @PutMapping("/upgrade")
-<<<<<<< HEAD
     public ResponseEntity<UpgradeResponse> upgrade(
             @AuthenticationPrincipal String id
     ){
@@ -121,11 +116,4 @@ public class AuthController {
         return ResponseEntity.ok().body(responseDto);
     }
 
-=======
-    public ResponseEntity<UpgradeResponse> upgrade(@AuthenticationPrincipal String id){
-
-        UpgradeResponse response=  userService.updateUserGrade(id);
-        return ResponseEntity.ok().body(response);
-    }
->>>>>>> 32cbdfc312e68b83c44a290abd18aef09228dc0b
 }

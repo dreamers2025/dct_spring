@@ -32,16 +32,15 @@ public class GeminiController {
             @ModelAttribute DreamInterpretationRequest request,
             @AuthenticationPrincipal String id
     ) {
-        // 1. 해몽 결과 가져오기
-        ClientGeminiResponse geminiResponse = geminiService.getGeminiResponse(request); // summary, content
-        InterpreterType interpreterType = request.getInterpreterType(); // interpreterType
-
-        log.info("/api/gemini/dream-interpretation에서 받은 id : "+id);
         String userGrade ="free";
         if(!id.equals("anonymousUser")) {
             userGrade = userService.findMe(id).getUsergrade();
             log.info("유저등급 : "+userGrade);
-          
+
+            // 1. 해몽 결과 가져오기
+            ClientGeminiResponse geminiResponse = geminiService.getGeminiResponse(request, userGrade); // summary, content
+            InterpreterType interpreterType = request.getInterpreterType(); // interpreterType
+
             // 2. 회원대상 DB 저장
             dreamService.saveDream(id, geminiResponse, interpreterType);
         }

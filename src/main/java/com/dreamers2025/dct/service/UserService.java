@@ -108,14 +108,11 @@ public class UserService {
                 );
         return UpgradeResponse.of(founduser);
     }
-<<<<<<< HEAD
 
     public Boolean expireGrade(Long id){
         int expiry = (int)userRepository.expireGrade(id);
         boolean expired =  expiry== 1;
         return expired;
     }
+
 }
-=======
-}
->>>>>>> 32cbdfc312e68b83c44a290abd18aef09228dc0b
