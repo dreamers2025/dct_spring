@@ -31,9 +31,10 @@ public class GeminiService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public ClientGeminiResponse getGeminiResponse(DreamInterpretationRequest request) {
+    public ClientGeminiResponse getGeminiResponse(DreamInterpretationRequest request, String userGrade) {
         // 1. Prompt 생성
         String prompt = createPrompt(request);
+        log.info("Gemini에 보내는 프롬프트 : "+prompt);
 
         // 2. Request Body 생성
         Map<String, Object> requestBody = new HashMap<>();
@@ -73,7 +74,7 @@ public class GeminiService {
                             logger.debug("Gemini API 응답: {}", result); // 응답 로깅
                             log.info("JSON : "+ result);
 
-                            ClientGeminiResponse clientResponse = parseStringToCGR(result);;
+                            ClientGeminiResponse clientResponse = parseStringToCGR(result, userGrade);;
 
                             return clientResponse; // 첫 번째 part의 text 반환
                         }
@@ -102,14 +103,21 @@ public class GeminiService {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(responseText, GeminiResponse.class);
     }
-    private ClientGeminiResponse parseStringToCGR(String result) throws Exception {
+    private ClientGeminiResponse parseStringToCGR(String result, String userGrade) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(result);
         String summary = jsonNode.get("summary").asText();
         String content = jsonNode.get("content").asText();
         ClientGeminiResponse response = new ClientGeminiResponse();
+        if(userGrade.equals("premium")){
+            response.setSummary(summary);
+            response.setContent(content);
+            log.info("프리미엄 응답 : "+response);
+            return response;
+        }
         response.setSummary(summary);
-        response.setContent(content);
+        response.setContent("");
+        log.info("무료 응답 : "+response);
         return response;
     }
 
@@ -119,7 +127,8 @@ public class GeminiService {
                 " 사용자는 현재 {experience}라는 고민을 겪고 있으며, 최근에 {dreamContent}라는 꿈을 꾸었습니다." +
                 " 이 꿈을 500자 안에서 {interpreterType}역할에 어울리는 말투로 해몽해 주세요. " +
                 " 해몽한 내용은 content라는 key값에 담아주시고," +
-                " content를 한줄로 짧게 요약한 내용을 summary라는 key값에 담아서 결과는 JSON 객체로 보내주세요."
+                " content를 한줄로 짧게 요약한 내용을 summary라는 key값에 담아서 결과는 JSON 객체로 보내주세요."+
+                " content, summary 외의 다른 내용은 제거해주세요"
                 ;
 
         // Prompt 생성

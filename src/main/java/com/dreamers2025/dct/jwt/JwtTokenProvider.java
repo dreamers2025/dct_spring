@@ -84,7 +84,7 @@ public class JwtTokenProvider {
      * @param token - 인증 토큰
      * @return 토큰에서 추출한 사용자 이름
      */
-     public String getCurrentLoginUsername(String token) {
+     public String getCurrentLoginUserId(String token) {
         return parseClaims(token).getSubject();
      }
 
