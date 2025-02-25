@@ -1,4 +1,8 @@
 package com.dreamers2025.dct.controller;
+
+import com.dreamers2025.dct.domain.interpreter.entity.InterpreterType;
+import com.dreamers2025.dct.dto.response.ClientGeminiResponse;
+import com.dreamers2025.dct.service.DreamService;
 import com.dreamers2025.dct.domain.user.dto.entity.User;
 import com.dreamers2025.dct.dto.request.DreamInterpretationRequest;
 import com.dreamers2025.dct.service.UserService;
@@ -20,6 +24,7 @@ import java.util.Map;
 public class GeminiController {
 
     private final GeminiService geminiService;
+    private final DreamService dreamService;
     private final UserService userService;
 
     @GetMapping("/api/gemini/dream-interpretation")
@@ -32,6 +37,13 @@ public class GeminiController {
         if(!id.equals("anonymousUser")) {
             userGrade = userService.findMe(id).getUsergrade();
             log.info("유저등급 : "+userGrade);
+
+            // 1. 해몽 결과 가져오기
+            ClientGeminiResponse geminiResponse = geminiService.getGeminiResponse(request, userGrade); // summary, content
+            InterpreterType interpreterType = request.getInterpreterType(); // interpreterType
+
+            // 2. 회원대상 DB 저장
+            dreamService.saveDream(id, geminiResponse, interpreterType);
         }
 
         return ResponseEntity
