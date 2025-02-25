@@ -22,7 +22,7 @@ public class Dream {
     // MySql 계열은 GenerationType.IDENTITY 사용, PostgreSQL이나 Oracle에선 GenerationType.SEQUENCE
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")  // 외래 키
     private User user;
 

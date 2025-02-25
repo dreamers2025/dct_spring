@@ -1,5 +1,6 @@
 package com.dreamers2025.dct.controller;
 
+import com.dreamers2025.dct.domain.dream.dto.request.DreamCreate;
 import com.dreamers2025.dct.domain.dream.dto.response.DreamLog;
 import com.dreamers2025.dct.domain.dream.entity.Dream;
 import com.dreamers2025.dct.jwt.JwtTokenProvider;
@@ -7,10 +8,13 @@ import com.dreamers2025.dct.repository.DreamRepository;
 import com.dreamers2025.dct.service.DreamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -21,10 +25,16 @@ public class DreamController {
     private final DreamService dreamService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping("/{userId}")
-    public ResponseEntity<Dream> createDream(@PathVariable Long userId, @RequestBody String content) {
-        return ResponseEntity.ok(dreamService.saveDream(userId, content));
+    @PostMapping("/api/save-dream-result")
+    public ResponseEntity<String> saveDreamToDB(
+            @RequestBody DreamCreate dreamCreate,
+            @AuthenticationPrincipal String userId
+    ) {
+        dreamService.saveDream(userId, dreamCreate);
+
+        return ResponseEntity.ok("Dream interpretation saved successfully.");
     }
+
 
     // 내 꿈 기록 조회 (로그인 상태에서만 가능)
     @GetMapping("/mydreams")
