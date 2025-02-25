@@ -117,19 +117,19 @@ public class AuthController {
     }
     @PutMapping("/update-username")
     public ResponseEntity<?> updateUsername(
-            @RequestBody String newName,
+            @RequestParam String newname,
             @AuthenticationPrincipal String id
     ){
-        log.info("전달받은 닉네임 : "+newName);
+        log.info("전달받은 닉네임 : "+newname);
         log.info("전달받은 ID : "+id);
-        Boolean isUpdated = userService.updateUsername(id,newName);
-        if(isUpdated){
+        Boolean isUpdated = userService.updateUsername(id,newname);
+        if(!isUpdated){
             return ResponseEntity.status(401).build();
         }
         return ResponseEntity.ok().body(Map.of(
                 "update", "success",
                 "message","닉네임 변경 완료",
-                "username",newName
+                "username",newname
         ));
     }
 }
