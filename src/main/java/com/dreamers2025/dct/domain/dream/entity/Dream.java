@@ -30,7 +30,7 @@ public class Dream {
     private String summary; // 요약
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "interpreter")
+    @Column(length = 30)
     private InterpreterType interpreter;
 
     @Column(length = 700, nullable = false)
