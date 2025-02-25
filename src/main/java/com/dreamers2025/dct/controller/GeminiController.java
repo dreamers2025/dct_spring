@@ -41,7 +41,7 @@ public class GeminiController {
             // 1. 해몽 결과 가져오기
             ClientGeminiResponse geminiResponse = geminiService.getGeminiResponse(request, userGrade); // summary, content
             InterpreterType interpreterType = request.getInterpreterType(); // interpreterType
-
+            log.info(geminiService.toString());
             // 2. 회원대상 DB 저장
             dreamService.saveDream(id, geminiResponse, interpreterType);
         }

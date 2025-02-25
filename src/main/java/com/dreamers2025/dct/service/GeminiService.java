@@ -5,6 +5,7 @@ import com.dreamers2025.dct.dto.response.ClientGeminiResponse;
 import com.dreamers2025.dct.dto.response.GeminiResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 @Slf4j
 @Service
+@ToString
 public class GeminiService {
 
     private final Logger logger = LoggerFactory.getLogger(GeminiService.class);
