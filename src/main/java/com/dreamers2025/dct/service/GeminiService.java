@@ -132,7 +132,7 @@ public class GeminiService {
                 ;
 
         // Prompt 생성
-        String prompt = promptTemplate.replace("{interpreterType}", request.getInterpreterType())
+        String prompt = promptTemplate.replace("{interpreterType}", request.getInterpreterType().toString())
                 .replace("{experience}", request.getExperience())
                 .replace("{dreamContent}", request.getDreamContent());
         System.out.println("prompt = " + prompt);
