@@ -28,7 +28,7 @@ public class GeminiController {
             @AuthenticationPrincipal String id
     ) {
         log.info("/api/gemini/dream-interpretation에서 받은 id : "+id);
-        String userGrade ="free";
+        String userGrade ="unknown";
         if(!id.equals("anonymousUser")) {
             userGrade = userService.findMe(id).getUsergrade();
             log.info("유저등급 : "+userGrade);

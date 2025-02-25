@@ -37,7 +37,7 @@ public class DreamController {
         log.info("컨트롤러에서 Bear 제거한 토큰: {}", accessToken);
 
         // JWT에서 사용자 id 정보 추출 getCurrentLoginUsername 메서드명 변경 예정이라고 함
-        String userId = jwtTokenProvider.getCurrentLoginUsername(accessToken);
+        String userId = jwtTokenProvider.getCurrentLoginUserId(accessToken);
 
         log.info("조회된 회원 id: {}", userId);
 

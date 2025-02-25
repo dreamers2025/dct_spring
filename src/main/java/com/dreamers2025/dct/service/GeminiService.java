@@ -109,15 +109,15 @@ public class GeminiService {
         String summary = jsonNode.get("summary").asText();
         String content = jsonNode.get("content").asText();
         ClientGeminiResponse response = new ClientGeminiResponse();
-        if(userGrade.equals("premium")){
+        if(userGrade.equals("premium")||userGrade.equals("free")){
             response.setSummary(summary);
             response.setContent(content);
-            log.info("프리미엄 응답 : "+response);
+            log.info("회원 응답 : "+response);
             return response;
         }
         response.setSummary(summary);
         response.setContent("");
-        log.info("무료 응답 : "+response);
+        log.info("비회원 응답 : "+response);
         return response;
     }
 

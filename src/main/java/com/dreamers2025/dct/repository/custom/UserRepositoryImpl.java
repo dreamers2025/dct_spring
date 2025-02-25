@@ -31,4 +31,13 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
                 .where(user.id.eq(id).and(user.gradeExpiry.before(LocalDateTime.now())))
                 .execute();
     }
+
+    @Override
+    public long updateUsername(Long id,String newName){
+        return queryFactory
+                .update(user)
+                .set(user.username,newName)
+                .where(user.id.eq(id))
+                .execute();
+    }
 }

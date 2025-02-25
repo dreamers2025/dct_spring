@@ -91,16 +91,11 @@ public class AuthController {
                 "email",founduser.getEmail(),
                 "username",founduser.getUsername(),
                 "created_at",founduser.getCreatedAt(),
-<<<<<<< HEAD
                 "usergrade", founduser.getUsergrade()
-=======
-                "usergrade",founduser.getUsergrade()
->>>>>>> 32cbdfc312e68b83c44a290abd18aef09228dc0b
         ));
     }
 
     @PutMapping("/upgrade")
-<<<<<<< HEAD
     public ResponseEntity<UpgradeResponse> upgrade(
             @AuthenticationPrincipal String id
     ){
@@ -120,12 +115,21 @@ public class AuthController {
 
         return ResponseEntity.ok().body(responseDto);
     }
-
-=======
-    public ResponseEntity<UpgradeResponse> upgrade(@AuthenticationPrincipal String id){
-
-        UpgradeResponse response=  userService.updateUserGrade(id);
-        return ResponseEntity.ok().body(response);
+    @PutMapping("/update-username")
+    public ResponseEntity<?> updateUsername(
+            @RequestBody String newName,
+            @AuthenticationPrincipal String id
+    ){
+        log.info("전달받은 닉네임 : "+newName);
+        log.info("전달받은 ID : "+id);
+        Boolean isUpdated = userService.updateUsername(id,newName);
+        if(isUpdated){
+            return ResponseEntity.status(401).build();
+        }
+        return ResponseEntity.ok().body(Map.of(
+                "update", "success",
+                "message","닉네임 변경 완료",
+                "username",newName
+        ));
     }
->>>>>>> 32cbdfc312e68b83c44a290abd18aef09228dc0b
 }

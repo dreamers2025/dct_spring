@@ -108,14 +108,16 @@ public class UserService {
                 );
         return UpgradeResponse.of(founduser);
     }
-<<<<<<< HEAD
 
     public Boolean expireGrade(Long id){
         int expiry = (int)userRepository.expireGrade(id);
         boolean expired =  expiry== 1;
         return expired;
     }
+
+    public Boolean updateUsername(String id, String newName) {
+        Long result = userRepository.updateUsername(Long.valueOf(id),newName);
+        if(result==1) return true;
+        return false;
+    }
 }
-=======
-}
->>>>>>> 32cbdfc312e68b83c44a290abd18aef09228dc0b
