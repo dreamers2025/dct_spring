@@ -61,7 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 토큰이 존재하고, 유효성 검증에 통과하면 인증 처리
         if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
             // 토큰이 유효하므로, 토큰에서 사용자 이름 추출
-            String username = tokenProvider.getCurrentLoginUsername(token);
+            String username = tokenProvider.getCurrentLoginUserId(token);
 
             // Spring Security에게 접근을 허용하라고 명령
             // Authentication 객체 생성 → SecurityContextHolder에 저장

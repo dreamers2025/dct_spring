@@ -1,8 +1,11 @@
 package com.dreamers2025.dct.controller;
+
 import com.dreamers2025.dct.domain.interpreter.entity.InterpreterType;
-import com.dreamers2025.dct.dto.request.DreamInterpretationRequest;
 import com.dreamers2025.dct.dto.response.ClientGeminiResponse;
 import com.dreamers2025.dct.service.DreamService;
+import com.dreamers2025.dct.domain.user.dto.entity.User;
+import com.dreamers2025.dct.dto.request.DreamInterpretationRequest;
+import com.dreamers2025.dct.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,6 @@ import com.dreamers2025.dct.service.GeminiService;
 
 import java.util.Map;
 
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class GeminiController {
 
     private final GeminiService geminiService;
     private final DreamService dreamService;
+    private final UserService userService;
 
     @GetMapping("/api/gemini/dream-interpretation")
     public ResponseEntity<Map<String,Object>> getDreamInterpretation(
@@ -33,18 +36,21 @@ public class GeminiController {
         ClientGeminiResponse geminiResponse = geminiService.getGeminiResponse(request); // summary, content
         InterpreterType interpreterType = request.getInterpreterType(); // interpreterType
 
-        // log.info("Gemini Controller userId:", id);
-
-        // 2. 회원대상 DB 저장
-        if (id == null || id.trim().isEmpty() || !"anonymousUser".equals(id)) {
-            log.info("Gemini Controller userId: {}", id);
+        log.info("/api/gemini/dream-interpretation에서 받은 id : "+id);
+        String userGrade ="free";
+        if(!id.equals("anonymousUser")) {
+            userGrade = userService.findMe(id).getUsergrade();
+            log.info("유저등급 : "+userGrade);
+          
+            // 2. 회원대상 DB 저장
             dreamService.saveDream(id, geminiResponse, interpreterType);
         }
 
-        // 3. 응답 반환
-        return ResponseEntity.ok(Map.of(
-                "gemini", geminiResponse,
-                "userGrade", "userGrade"
-        ));
+        return ResponseEntity
+                .ok()
+                .body(Map.of(
+                        "gemini",geminiService.getGeminiResponse(request ,userGrade),
+                        "userGrade",userGrade
+                ));
     }
 }

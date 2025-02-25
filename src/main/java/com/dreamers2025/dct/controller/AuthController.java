@@ -2,7 +2,9 @@ package com.dreamers2025.dct.controller;
 
 import com.dreamers2025.dct.domain.user.dto.entity.User;
 import com.dreamers2025.dct.domain.user.dto.request.LoginRequest;
+import com.dreamers2025.dct.domain.user.dto.response.DuplicateCheckResponse;
 import com.dreamers2025.dct.domain.user.dto.response.UpgradeResponse;
+import com.dreamers2025.dct.jwt.JwtTokenProvider;
 import com.dreamers2025.dct.service.UserService;
 import com.dreamers2025.dct.domain.user.dto.request.SignUpRequest;
 import jakarta.servlet.http.Cookie;
@@ -79,7 +81,7 @@ public class AuthController {
     public ResponseEntity<?> getCurrentUser (
             @AuthenticationPrincipal String id
     ){
-        if(id==null){
+        if(id.equals("anonymousUser")){
             return ResponseEntity.status(401).build();
         }
         User founduser = userService.findMe(id);
@@ -89,14 +91,41 @@ public class AuthController {
                 "email",founduser.getEmail(),
                 "username",founduser.getUsername(),
                 "created_at",founduser.getCreatedAt(),
+<<<<<<< HEAD
+                "usergrade", founduser.getUsergrade()
+=======
                 "usergrade",founduser.getUsergrade()
+>>>>>>> 32cbdfc312e68b83c44a290abd18aef09228dc0b
         ));
     }
 
     @PutMapping("/upgrade")
+<<<<<<< HEAD
+    public ResponseEntity<UpgradeResponse> upgrade(
+            @AuthenticationPrincipal String id
+    ){
+        log.info("업그레이드할 아이디 : "+id);
+        UpgradeResponse response=  userService.updateUserGrade(id);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/check-duplicate")
+    public ResponseEntity<DuplicateCheckResponse> checkDuplicate(
+            @RequestParam String type,
+            @RequestParam String value
+    ) {
+        log.info("check duplicate type: {}, value: {}", type, value);
+
+        DuplicateCheckResponse responseDto = userService.checkDuplicate(type, value);
+
+        return ResponseEntity.ok().body(responseDto);
+    }
+
+=======
     public ResponseEntity<UpgradeResponse> upgrade(@AuthenticationPrincipal String id){
 
         UpgradeResponse response=  userService.updateUserGrade(id);
         return ResponseEntity.ok().body(response);
     }
+>>>>>>> 32cbdfc312e68b83c44a290abd18aef09228dc0b
 }

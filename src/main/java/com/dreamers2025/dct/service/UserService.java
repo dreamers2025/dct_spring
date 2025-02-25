@@ -3,6 +3,7 @@ package com.dreamers2025.dct.service;
 import com.dreamers2025.dct.domain.user.dto.entity.User;
 import com.dreamers2025.dct.domain.user.dto.request.LoginRequest;
 import com.dreamers2025.dct.domain.user.dto.request.SignUpRequest;
+import com.dreamers2025.dct.domain.user.dto.response.DuplicateCheckResponse;
 import com.dreamers2025.dct.domain.user.dto.response.UpgradeResponse;
 import com.dreamers2025.dct.exception.ErrorCode;
 import com.dreamers2025.dct.exception.UserException;
@@ -67,10 +68,11 @@ public class UserService {
         if(!passwordEncoder.matches(inputPassword,storedPassword)){
             throw new UserException(ErrorCode.INVALID_PASSWORD);
         }
-
+        Boolean gradeExpiry = expireGrade(founduser.getId());
         return Map.of(
                 "message","로그인에 성공했습니다.",
                 "username",founduser.getUsername(),
+                "gradeExpire",gradeExpiry,
                 "accessToken",jwtTokenProvider.createAccessToken(String.valueOf(founduser.getId()))
         );
     }
@@ -83,6 +85,22 @@ public class UserService {
         return founduser;
     }
 
+    public DuplicateCheckResponse checkDuplicate(String type, String value) {
+        switch (type) {
+            case "email":
+                // 중복된 경우를 클라이언트에게 알려야 함
+                return userRepository.findByEmail(value)
+                        .map(m -> DuplicateCheckResponse.unavailable("이미 사용 중인 이메일입니다."))
+                        .orElse(DuplicateCheckResponse.available());
+            case "username":
+                return userRepository.findByUsername(value)
+                        .map(m -> DuplicateCheckResponse.unavailable("이미 사용 중인 사용자 이름입니다."))
+                        .orElse(DuplicateCheckResponse.available());
+            default:
+                throw new UserException(ErrorCode.INVALID_SIGNUP_DATA);
+        }
+    }
+
     public UpgradeResponse updateUserGrade(String id) {
         userRepository.updateUserGrade(Long.valueOf(id));
         User founduser = userRepository.findById(Long.valueOf(id))
@@ -90,4 +108,14 @@ public class UserService {
                 );
         return UpgradeResponse.of(founduser);
     }
+<<<<<<< HEAD
+
+    public Boolean expireGrade(Long id){
+        int expiry = (int)userRepository.expireGrade(id);
+        boolean expired =  expiry== 1;
+        return expired;
+    }
 }
+=======
+}
+>>>>>>> 32cbdfc312e68b83c44a290abd18aef09228dc0b

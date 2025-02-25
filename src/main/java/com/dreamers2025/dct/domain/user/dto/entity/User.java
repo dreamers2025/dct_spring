@@ -39,7 +39,7 @@ public class User {
     private String usergrade="free";
 
     @Column
-    private LocalDateTime gradeExpiry=null;
+    private LocalDateTime gradeExpiry;
 
     @Column(length = 255)
     private String refreshToken;
