@@ -22,17 +22,18 @@ public class Dream {
     // MySql 계열은 GenerationType.IDENTITY 사용, PostgreSQL이나 Oracle에선 GenerationType.SEQUENCE
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")  // 외래 키
     private User user;
 
-    @Column(length = 40)
+    @Column(length = 50)
     private String summary; // 요약
 
     @Enumerated(EnumType.STRING)
     @Column(name = "interpreter")
     private InterpreterType interpreter;
 
+    @Column(length = 700, nullable = false)
     private String content; // 해몽 내용
 
     @CreationTimestamp
