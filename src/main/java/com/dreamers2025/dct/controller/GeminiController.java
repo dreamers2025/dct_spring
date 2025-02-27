@@ -7,6 +7,7 @@ import com.dreamers2025.dct.domain.user.dto.entity.User;
 import com.dreamers2025.dct.dto.request.DreamInterpretationRequest;
 import com.dreamers2025.dct.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class GeminiController {
             // 1. 해몽 결과 가져오기
             ClientGeminiResponse geminiResponse = geminiService.getGeminiResponse(request, userGrade); // summary, content
             InterpreterType interpreterType = request.getInterpreterType(); // interpreterType
-            log.info(geminiService.toString());
+            log.info("해몽 결과 가져오기"+geminiService.toString());
             // 2. 회원대상 DB 저장
             dreamService.saveDream(id, geminiResponse, interpreterType);
         }
