@@ -132,7 +132,7 @@ public class GeminiService {
                 " 사용자는 현재 {experience}라는 고민을 겪고 있으며, 최근에 {dreamContent}라는 꿈을 꾸었습니다." +
                 " 이 꿈을 반드시 500자 안에서 {interpreterType}역할에 어울리는 말투로 해몽해 주세요. " +
                 " 해몽한 내용은 content라는 key값에 담아주시고," +
-                " content를 반드시 30자 이내 지켜서 한줄로 짧게 요약한 내용을 summary라는 key값에 담아서 결과는 JSON 객체로 보내주세요."+
+                " content를 반드시 25자 이내로 한줄로 요약한 텍스트를 summary라는 key값에 담아서 결과는 JSON 객체로 보내주세요."+
                 " content, summary 외의 다른 내용은 제거해주세요"
                 ;
 
