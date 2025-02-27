@@ -48,4 +48,15 @@ public class DreamController {
         // 결과 반환
         return ResponseEntity.ok(dreamLogs);
     }
+
+    @DeleteMapping("/mydreams/delete")
+    public ResponseEntity<?> deleteDream(
+            @RequestParam Long dreamId,
+            @AuthenticationPrincipal String id
+    ){
+        dreamService.deleteDream(dreamId);
+        return ResponseEntity.ok().body(Map.of(
+                "message","삭제성공"
+        ));
+    }
 }

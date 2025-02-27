@@ -62,4 +62,9 @@ public class DreamService {
             throw new IllegalArgumentException("Invalid userId format");
         }
     }
+    public void deleteDream(Long dreamId){
+        dreamRepository.deleteById(dreamId);
+        return;
+    }
+
 }
