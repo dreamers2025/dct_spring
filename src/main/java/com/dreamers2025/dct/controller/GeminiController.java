@@ -47,6 +47,8 @@ public class GeminiController {
 
             // 2. 회원대상 DB 저장
             dreamService.saveDream(id, geminiResponse, interpreterType);
+        }else{
+            geminiResponse = geminiService.getGeminiResponse(request, userGrade);
         }
 
         return ResponseEntity

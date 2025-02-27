@@ -49,11 +49,12 @@ public class DreamController {
         return ResponseEntity.ok(dreamLogs);
     }
 
-    @DeleteMapping("/mydreams/delete")
+    @DeleteMapping("/mydreams/delete/{dreamId}")
     public ResponseEntity<?> deleteDream(
-            @RequestParam Long dreamId,
+            @PathVariable Long dreamId,
             @AuthenticationPrincipal String id
     ){
+        log.info("삭제요청 ID : "+id);
         dreamService.deleteDream(dreamId);
         return ResponseEntity.ok().body(Map.of(
                 "message","삭제성공"
