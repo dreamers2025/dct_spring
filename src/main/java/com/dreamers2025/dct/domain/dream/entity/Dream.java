@@ -33,7 +33,8 @@ public class Dream {
     @Column(length = 30)
     private InterpreterType interpreter;
 
-    @Column(length = 700, nullable = false)
+    @Lob
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content; // 해몽 내용
 
     @CreationTimestamp
