@@ -52,7 +52,7 @@ public class GeminiController {
         return ResponseEntity
                 .ok()
                 .body(Map.of(
-                        "gemini",geminiService.getGeminiResponse(request ,userGrade),
+                        "gemini",geminiResponse,
                         "userGrade",userGrade
                 ));
     }
