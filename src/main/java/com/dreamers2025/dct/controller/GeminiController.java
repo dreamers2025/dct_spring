@@ -33,27 +33,23 @@ public class GeminiController {
             @ModelAttribute DreamInterpretationRequest request,
             @AuthenticationPrincipal String id
     ) {
-        ClientGeminiResponse geminiResponse = null;
+        log.info("/api/gemini/dream-interpretation에서 받은 id: {}", id);
 
-        log.info("/api/gemini/dream-interpretation에서 받은 id : "+id);
-        String userGrade ="unknown";
-        if(!id.equals("anonymousUser")) {
-            userGrade = userService.findMe(id).getUsergrade();
-            log.info("유저등급 : "+userGrade);
+        boolean isAnonymous = "anonymousUser".equals(id);
+        String userGrade = isAnonymous ? "unknown" : userService.findMe(id).getUsergrade();
+        log.info("유저 등급: {}", userGrade);
 
-            // 1. 해몽 결과 가져오기
-            geminiResponse = geminiService.getGeminiResponse(request, userGrade); // summary, content
-            InterpreterType interpreterType = request.getInterpreterType(); // interpreterType
+        // 1. 해몽 결과 가져오기
+        ClientGeminiResponse geminiResponse = geminiService.getGeminiResponse(request, userGrade);
 
-            // 2. 회원대상 DB 저장
-            dreamService.saveDream(id, geminiResponse, interpreterType);
-        }else{
-            geminiResponse = geminiService.getGeminiResponse(request, userGrade);
+        // 2. 회원 대상이면 DB 저장
+        if (!isAnonymous) {
+            dreamService.saveDream(id, geminiResponse, request.getInterpreterType());
         }
 
         return ResponseEntity
                 .ok()
-                .body(Map.of(
+                .body(Map.of(it
                         "gemini",geminiResponse,
                         "userGrade",userGrade
                 ));
