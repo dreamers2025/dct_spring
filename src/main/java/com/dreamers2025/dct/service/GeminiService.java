@@ -34,61 +34,57 @@ public class GeminiService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public ClientGeminiResponse getGeminiResponse(DreamInterpretationRequest request, String userGrade) {
-        // 1. Prompt 생성
         String prompt = createPrompt(request);
-        log.info("Gemini에 보내는 프롬프트 : "+prompt);
+        log.info("Gemini에 보내는 프롬프트 : " + prompt);
 
-        // 2. Request Body 생성
         Map<String, Object> requestBody = new HashMap<>();
         Map<String, Object> content = new HashMap<>();
-        content.put("parts", List.of(Map.of("text", prompt))); // prompt를 "parts"에 text로 전달
+        content.put("parts", List.of(Map.of("text", prompt)));
         requestBody.put("contents", List.of(content));
 
-        // 3. Header 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // 4. API 호출
+        String url = apiEndpoint + "?key=" + apiKey;
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
-        String url = apiEndpoint + "?key=" + apiKey; // API 키를 URL 파라미터로 전달
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
-        // 5. 응답 처리
-        String responseText = responseEntity.getBody();
-
-
-        if (responseText != null) {
-            // 6. 응답에서 마크다운 제거
-            responseText = removeMarkdown(responseText);
-
-            // 7. 응답을 JSON으로 파싱
+        int maxRetries = 3; // 최대 3번 재시도
+        for (int attempt = 1; attempt <= maxRetries; attempt++) {
             try {
-                GeminiResponse responseBody = parseJsonResponse(responseText);
+                ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+                String responseText = responseEntity.getBody();
 
-                log.info("parsedResponseText : "+ responseText);
-                if (responseBody != null && responseBody.getCandidates() != null && !responseBody.getCandidates().isEmpty()) {
-                    GeminiResponse.Candidate candidate = responseBody.getCandidates().get(0);
-                    if (candidate.getContent() != null && candidate.getContent().getParts() != null) {
-                        List<GeminiResponse.Part> parts = candidate.getContent().getParts();
-                        log.info(parts.toString());
-                        if (!parts.isEmpty()) {
-                            String result = parts.get(0).getText();
-                            logger.debug("Gemini API 응답: {}", result); // 응답 로깅
-                            log.info("JSON : "+ result);
+                if (responseText != null) {
+                    responseText = removeMarkdown(responseText);
+                    GeminiResponse responseBody = parseJsonResponse(responseText);
 
-                            ClientGeminiResponse clientResponse = parseStringToCGR(result, userGrade);;
-
-                            return clientResponse; // 첫 번째 part의 text 반환
+                    if (responseBody != null && responseBody.getCandidates() != null && !responseBody.getCandidates().isEmpty()) {
+                        GeminiResponse.Candidate candidate = responseBody.getCandidates().get(0);
+                        if (candidate.getContent() != null && candidate.getContent().getParts() != null) {
+                            List<GeminiResponse.Part> parts = candidate.getContent().getParts();
+                            if (!parts.isEmpty()) {
+                                String result = parts.get(0).getText();
+                                logger.debug("Gemini API 응답: {}", result);
+                                return parseStringToCGR(result, userGrade);
+                            }
                         }
                     }
                 }
+                logger.error("Gemini API 응답이 비어 있음. 재시도 {}/{}", attempt, maxRetries);
             } catch (Exception e) {
-                logger.error("응답 파싱 오류: {}", e.getMessage());
+                logger.error("Gemini API 요청 실패 ({}차 시도): {}", attempt, e.getMessage());
+            }
+
+            if (attempt < maxRetries) {
+                try {
+                    Thread.sleep(2000); // 2초 대기 후 재시도
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
 
-        logger.error("Gemini API 응답 처리 실패");
-//        return "Gemini API 응답 처리 실패"; // 에러 발생 시 메시지 반환
+        logger.error("Gemini API 요청 재시도 후 실패");
         return null;
     }
 
