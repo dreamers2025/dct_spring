@@ -8,6 +8,6 @@ public enum InterpreterType {
     CHRISTIAN,
     VITRIOLIST,
     RAPPER,
-    BABY,
+    POSSESSEDBABY,
     MANSOUR
 }
