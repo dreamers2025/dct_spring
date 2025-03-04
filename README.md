@@ -71,44 +71,47 @@ AI를 활용한 해몽 웹 사이트
 
 
 #### ✅ 시작 화면
+<img src="https://github.com/user-attachments/assets/bb56949c-0d77-4cbf-b667-c0c1a12a92fb" width="800" height="450"/>
 
 
 </br>
 
 #### ✅ 캐릭터 선택
+![Image](https://github.com/user-attachments/assets/02cae9c1-8f9d-4875-aab7-bc0810b2c672)
 
 
 </br>
 
 #### ✅ 고민거리 및 꿈 입력
-
+![Image](https://github.com/user-attachments/assets/665692b9-4755-4f02-a761-c42e9bc32a04)
+![Image](https://github.com/user-attachments/assets/66ffcc07-192d-4b32-86f6-5337fc829da2)
 
 </br>
 
 #### ✅ 해몽 결과
-
+![Image](https://github.com/user-attachments/assets/73d654c8-6442-4aa4-99e2-d083df8cb454)
 
 </br>
 
 #### ✅ 꿈 기록 및 삭제
+![Image](https://github.com/user-attachments/assets/a8ebc916-ae23-4294-9b40-c1f12e5aa49d)
 
 
 </br>
 
 #### ✅ 회원가입
-
+![Image](https://github.com/user-attachments/assets/f9dbb322-2823-4e7d-99f1-ae50ff1d3fff)
 
 </br>
 
-#### ✅ 사용자 정보 수정
-
+#### ✅ 사용자 정보(닉네임 및 회원 등급) 수정 
+![Image](https://github.com/user-attachments/assets/e5eb9ca0-ff23-4d90-8118-3e427d35bc55)
+![Image](https://github.com/user-attachments/assets/055682d1-5e6d-4370-ab2a-55f7c6713993)
 
 </br>
 
 ## 📚 기술스택 및 개발환경
-
 ![image](https://github.com/user-attachments/assets/7bc0106a-ff6e-483d-a00c-3adb4bdf88bf)
-
 
 </br>
 
